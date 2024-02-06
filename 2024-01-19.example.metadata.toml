@@ -1,47 +1,24 @@
 # Mandatory Keys
 
+[owner]
+name = 'Guido Incognito'
+contact = 'mail@incogni.to'
+
+[access]
+access-control = '1_public'
+
+[meta]
 title = "An Example Dataset"
+description = """
+Just some example data. Actually this file is only used, to act as an
+example of what the metadata TOML file looks like.
+"""
 
-owner = "Guido Incognito"
-# TODO: Instead of making `contact` an optional key later, do we want to
-#       specify that owner always has to be a map with the mandatory
-#       keys `name` and `contact`? That would mean one could write the
-#       following options.
-#
-#           owner = {name: "Guido Incognito", contact: "guy@incogni.to"}
-#
-#           owner.name = "Guido Incognito" 
-#           owner.contact = "guy@incogni.to"
-#
-#           [owner]
-#           name = "Guido Incognito"
-#           contact = "guy@incogni.to"
-
-access-control = 3
-# TODO: Now that we don't put the access level into the filename
-#       anymore, do we want to use verbose names here? Like e.g.
-#       "published", "public", "internal", "restricted",
-#       {"eyes only"|"sealed"|"locked"}.
-#       Then we could write:
-#
-#           access = "published"
-#
-#       or
-#
-#           access = "restricted"
-#
-#       Con: Possibilities for typos. List might be harder to memorize
-#            than just integers between 0 and 4.
-#       Pro: Less obtuse. Allows for a shorter field name. Open to
-#            semantic extensions.
-#            (Integer keys would have to be extended linearly, so a new
-#            access level we haven't thought about would get the number
-#            5, even if it would fall between levels 1 and 2.)
-#
-#       Also, if `access = "restricted"`, how would the restrictions be
-#       specified?
 
 format = "netCDF"
+
+
+
 # TODO: Thinking about this, I noticed that the format should actually
 #       be defined via the file extensions. So what information would
 #       this field contain, that couldn't be obtained by extensions like
@@ -55,20 +32,18 @@ format = "netCDF"
 #       would have the option to also specify sources for further
 #       information on the format:
 #
-#         format.name = "Data Package"  
+#         format.name = "Data Package"
 #         format.url = "https://specs.frictionlessdata.io/data-package/"
 
 
 # Optional Fields
 
-description = """
-Just some example data. Actually this file is only used, to act as an
-example of what the metadata TOML file looks like.
-"""
-timeinterval.start = 1970-01-01 00:00:00Z
-timeinterval.stop = 2024-12-02 20:24:12+02:00
+
+[timeinterval]
+start = 1970-01-01 00:00:00Z
+stop = 2024-12-02 20:24:12+02:00
 # begin/end, left/right, alpha/omega, α/ω, Α/Ω ?
-timeinterval.resolution = "15 min"
+resolution = "15 min"
 
 
 # This is my proposal on how to handle complex cases: allow optional
