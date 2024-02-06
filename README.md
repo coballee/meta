@@ -2,47 +2,103 @@
 Definition von Datei-Struktur und Berechtigungsebenen für die Datenakquise und -nutzung in hyBit
 
 ## Basic
-Grundsätzlich wird jede Datei als öffentlich (Level 0) betrachtet, es seie denn, es wird ein strengeres Dateilevel
-durch eine Metadatei definiert.
+Grundsätzlich wird jede Datei als öffentlich (Level 0) betrachtet, außer, es wird ein strengeres Dateilevel durch eine Metadatei definiert.
+
+Die Evaluation erfolgt absteigend und wird spezifischer pro Datei:
+- Default: Level 0
+- root.hyBit-meta.toml
+- folder.hyBit-meta.toml
+- file.ext.hyBit-meta.toml
+
 
 ## Metadaten
 Eine Textdatei (TOML; see example) mit Metadaten ist **unbedingt erforderlich** und für **jede Datei** zu
 erstellen (entweder einzeln, oder im sinnvollen Format für alle zusammengehörigen Dateien).
-Nur hier können/dürfen die Datenlevel angegeben werden.
+Nur hier wird das Zugriffslevel angegeben.
 
-Die Metadata-Datei muss mindestens die folgenden Felder enthalten (see example):
-- Titel [title]
-- Besitzer:in [owner]
-- Access-Level (siehe unten) [access-level]
-- Beschreibung
+Die Metadata-Datei muss mindestens die nachfolgenden Felder enthalten. Die Typen Contact und AccessLevel sind unterhalb ([Typen](#typen)) definiert.
 
-Zusätzlich werden automatisch aus der Besitzer:in abgeleitet:
-- Quelle [source] (optional; if not specified: same as owner)
-- Ansprechpartner:in [contact] (optional; if not specified: same as owner)
+| Name                 | Attribut     | Typ             | Beschreibung                                                     |
+|----------------------|--------------|-----------------|------------------------------------------------------------------|
+| Titel                | title        | str             | Titel des Datensatzes                                            |
+| Beschreibung         | description  | str             | Beschreibung der Daten                                           |
+| Zugriffslevel        | access-level | AccessLevel/str | Zugriffsberechtigungen für diese Daten                           |
+| Besitzer:in          | owner        | Contact         | Wer ist verantwortlich für diese Daten?                          |
+| _Quelle_             | source       | Contact         | Herkunft der Daten (sofern nicht angegeben: owner)               |
+| _Ansprechpartner:in_ | contact      | Contact         | Ansprechpartner:in für die Daten (sofern nicht angegeben: owner) | 
 
-Weitere optionale Felder (Beispiele)
-- Datenformat [format]
-- Bearbeitung [how-processed] (was data cleaned or processed otherwise?)
-- Beschreibung [description]
-- Startdatum [start] (bei Zeitreihen)
-- Enddatum [end] (bei Zeitreihen)
-- Auflösung [resolution] (bei Zeitreihen)
-- Lizenz (sowas wie GPL, CC-BY-ND 4.0 usw.)
+Weitere optionale Felder, die bisher definiert sind.
+Von diesen kann eine beliebige Menge für einzelne Dateien definiert werden. 
+
+| Kategorie | Name              | Attribut      | Typ      | Beschreibung                                                                                  |
+|-----------|-------------------|---------------|----------|-----------------------------------------------------------------------------------------------|
+| Daten     | Auflösung         | resolution    | str      | Welche (z.B. zeitliche) Auflösung haben die Daten, ggf. inkl Einheit?                         |
+| Daten     | Einheit           | unit          | str      | Welche Einheit haben die Daten? (z.B. kWh, Sekunden, ...)                                     |
+| Daten     | Aufnahmezeitpunkt | snapshot_time | datetime | In welchem Moment wurden die Daten aufgenommen/exportiert?                                    |
+| Daten     | Beginn            | time_begin    | datetime | Beginn des Zeitraums der Daten                                                                |
+| Daten     | Ende              | time_end      | datetime | Ende des Zeitraums der Daten                                                                  |
+| Daten     | DateTime-Format   | time_format   | str      | Falls abweichend von "%Y-%m-%d %H:%M:%S.%f"                                                   |
+| Daten     | Vorbereitung      | preprocessing | str      | Beschreibung, welche Aktionen auf den Daten ausgeführt wurden                                 |
+| Daten     | Rohdaten          | raw_data      | Path/str | Link auf die Originaldaten, sofern diese hier zusammengefasst/bearbeitet sind                 |
+| Technisch | Speicherort       | location      | str      | Bei Level L4 sollte hier ein Hinweis sein, wo die Daten liegen (z.B. Dateipfad / interner Serverlink) |
+| Technisch | Format            | format        | str      | In welchem Dateiformat sind die Daten?                                                        |
+| Technisch | Encoding          | encoding      | str      | Standard: UTF-8, falls abweichend entsprechend angeben.                                       | 
+| Referenz  | Referenz          | reference     | str      | Verweis auf eine Publikation, die zu diesen Daten gehört                                      |
+| Referenz  | DOI               | doi           | str      | DOI, sofern vorhanden                                                                         |
+| Referenz  | URL               | url           | str      | URL auf eine Webseite mit den Daten bzw. mehr Informationen dazu                              |
+| Referenz  | Repository        | repository    | str      | Verweis auf ein Repository, z.B. Git, welches die Daten oder Material dazu enthält            |
+| Referenz  | Lizenz            | licence       | str      | Lizenz, unter der die Daten genutzt werden können (z.B. GPL, CC-BY-ND 4.0, ...)               | 
+
+Diese Menge ist sicherlich nicht vollständig. Um einen einheitlichen Standard zu haben, wollen wir diese Liste weiter führen.
+Dazu bitte für zusätzliche Felder bitte einen [Issue hier im Repository](https://github.com/hyBit-project/meta/issues) erstellen.
+
+### Typen
+Nachfolgend sind zwei oben verwendete Datentypen näher beschrieben.
+Ansonsten sind alle Werte als String ausgeführt ohne spezifisches Format. 
+Die Annahme des Datumsformats für Datetime ist der Python-Standard, `%Y-%m-%d %H:%M:%S.%f` bzw. `%Y-%m-%d %H:%M:%S`, 
+der automatisch generiert wird.
+
+#### Contact
+
+| Name          | Attribut | Typ | Beschreibung                               |
+|---------------|----------|-----|--------------------------------------------|
+| Name          | name     | str | Name der Person                            |
+| E-mail        | mail     | str | E-Mail-Adresse der Person                  |
+| _Telefon_     | phone    | str | Telefonnummer der Person (optional)        |
+| _Unternehmen_ | company  | str | Unternehmen/Institut der Person (optional) |
+
+#### AccessLevel
+Es sind fünf AccessLevel definiert. Diese sind in der folgenden Tabelle aufgelistet.
+Ebenso die String-Konstanten, die für die Datenlevel genutzt werden sollen.
+
+| Level | Konstante     | Titel                              | Erläuterung                                                                                                                                                               |
+|-------|---------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| L0    | 0_public      | Vollständig offen & bereits publik | Referenz zu Daten bereits vorhanden und zu nutzen                                                                                                                         |
+| L1    | 1_open        | Vollständig offen                  | Publizierbar, jedoch (noch) keine Referenz vorhanden; Wechsel zu L0, wenn Referenz vorhanden                                                                              | 
+| L2    | 2_internal    | Projektintern offen                | Keine Restriktionen innerhalb des Konsortiums; aber Veröffentlichung oder Weitergabe an Dritte nur nach Rücksprache!                                                      | 
+| L3    | 3_conditional | Konditionell offen                 | Konditionen + Datenverantwortlichkeit (Partner, Mitarbeiter:innen) sind in Metadaten aufzuführen. Bei gruppenbezogenen Konditionen werden Rechte von Systemadmin vergeben | 
+| L4    | 4_closed      | Geschlossen                        | dürfen **NICHT** (auch nicht in geschützten Bereichen) auf dem Server hochgeladen werden; nur Metadaten-Info auf Server                                                   |
 
 ## Generelle Anmerkungen
 1. Sämtliche Berechtigungen beziehen sich auf Lese-Rechte.
    Berechtigungen nach Manipulation der Datensätze ist mit den Daten-Eignern abzustimmen
-2. Datensätze **ohne** Levelangabe gelten als **L0** (siehe unten)
+2. Datensätze **ohne** Levelangabe gelten als **L0**.
 
 ## Festlegen der Ordner – und Dateibenennung (bindend!)
-YYYY-MM-DD.beispielhafter-dateiname.endung  
-YYYY-MM-DD.beispielhafter-dateiname.endung.metadata.toml
-
-YYYY-MM-DD_beispielhafter-dateiname.endung  
-YYYY-MM-DD_beispielhafter-dateiname.endung.metadata.toml
-
 YYYY_MM_DD_beispielhafter-dateiname.endung  
-YYYY_MM_DD_beispielhafter-dateiname.endung.metadata.toml
+YYYY_MM_DD_beispielhafter-dateiname.endung.hyBit-meta.toml
+
+## Generierung der hyBit-meta.toml-Dateien
+Die hyBit-meta.toml-Dateien können mittels eines Generators erstellt werden. Hier werden die benötigten und optionalen Attribute abgefragt 
+und können von den Nutzer:innen einfach eingetragen werden.
+
+Eine aktuelle Instanz ist unter [hybit-meta.ebroda.de](https://hybit-meta.ebroda.de) verfügbar (perspektivisch [meta.hybit.org](https://meta.hybit.org)).
+
+Ein Beispiel für eine hyBit-meta.toml findet sich nachfolgend.
+```toml
+...
+t.b.a.
+```
 
 ## Offene Punkte
 Wie mehrere Dateien handlen?
@@ -66,9 +122,3 @@ format.name = "The hilarious foobar format."
 
 Darstellung in hyBit Datenspeicher (NextCloud?)  
 -> z.B. basierend auf MetaData-Plugin (https://github.com/gino0631/nextcloud-metadata/)
-
-## Acess-Level
-| Level | L0 | L1 | L2 | L3 | L4 |
-| ----- | -- | -- | -- | -- | -- |
-| Titel | Vollständig offen &  bereits publik | Vollständig offen |  Projektintern offen |  Konditionell offen | Geschlossen |
-| Erläuterung | Referenz zu   Daten bereits  vorhanden   und zu   nutzen |  Publizierbar, jedoch (noch)  keine   Referenz  vorhanden;  Wechsel zuL0, wenn Referenz vorhanden | Keine Restriktionen  innerhalb des  Konsortiums;  aber Rücksprache vor Veröffentlichung oder Weitergabe an Dritte |Konditionen +    Datenverantwortlichkeit  (Partner,    Mitarbeiter:innen) sind    in Metadaten  aufzuführen   Bei gruppenbezogenen   Konditionen werden  Rechte von   Systemadmin vergeben | dürfen   NICHT (auch   nicht in   geschützten   Bereichen)   auf dem   Server   hochgeladen   werden   Metadaten-   Info auf   Server| 
