@@ -7,7 +7,7 @@
         Dieses Tool unterstützt bei der Erstellung der verschiedenen Metadateien für hyBit-Projektdateien.
     </p>
     <div class="d-inline-flex gap-2">
-        <a href="https://gitlab.ips.biba.uni-bremen.de/hyBit/meta-datarights#hybit-datastructure" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+        <a href="https://github.com/hyBit-project/meta?tab=readme-ov-file#hybit-datastructure" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
             Format-Beschreibung (GitHub)
         </a>
     </div>
