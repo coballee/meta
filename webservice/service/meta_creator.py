@@ -1,12 +1,12 @@
 from tempfile import NamedTemporaryFile
-
 from flask import render_template, request, send_file, g
 from flask.views import MethodView
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField
-import toml
-
+from wtforms.validators import InputRequired
 from webservice.service.hybit_encoder import hyBitMetaEncoder
+
+import toml
 
 
 class MetaForm(FlaskForm):
@@ -25,7 +25,7 @@ class MetaForm(FlaskForm):
     contact_phone = StringField("Telefon")
     contact_company = StringField("Unternehmen/Institut/AG")
 
-    filename = StringField("Dateiname")
+    filename = StringField("Dateiname", [InputRequired()])
     title = StringField("Titel*")
     access = SelectField("Zugriffsberechtigung*", choices=((None, 'wie definiert in root/folder/L0'), ('0_public', '0 - öffentlich'), ('1_open', '1 - vollständig offen'), ('2_internal', '2 - Projektintern offen'), ('3_conditional', '3 - Konditionell offen'), ('4_closed', '4 - geschlossen')), default='4_closed')
     description = TextAreaField("Beschreibung")
@@ -97,7 +97,7 @@ class BaseMetaFileView(MethodView):
 
             if filename is None:
                 filename = ''
-            return send_file(tmp.name, download_name=filename + '.metadata.toml', as_attachment=True)
+            return send_file(tmp.name, download_name=filename + '.hyBit-meta.toml', as_attachment=True)
 
     @staticmethod
     def get_toml_string(form):
@@ -128,6 +128,7 @@ class MetaFileCreation(BaseMetaFileView):
 
         return self.get(form)
 
+
 class MetaFolderCreation(BaseMetaFileView):
 
     def get(self, form=None):
@@ -136,7 +137,6 @@ class MetaFolderCreation(BaseMetaFileView):
 
         g.type = 'folder'
         return render_template('folder.tpl', form=form, create_update='erstellen', toml=None)
-
 
 
 class MetaRootCreation(BaseMetaFileView):
