@@ -66,7 +66,7 @@ Von diesen kann eine beliebige Menge für einzelne Dateien definiert werden.
 | Daten     | Beginn            | time_begin    | datetime | Beginn des Zeitraums der Daten                                                                        |
 | Daten     | Ende              | time_end      | datetime | Ende des Zeitraums der Daten                                                                          |
 | Daten     | Zeitzone          | timezone      | str      | Zeitzone, sofern relevant (gilt für alle Zeitwerte)                                                   |
-| Daten     | DateTime-Format   | time_format   | str      | Falls abweichend von "%Y-%m-%dT%H:%M:%S.%f" bzw. "%Y-%m-%dT%H:%M:%S.%f"                               |
+| Daten     | DateTime-Format   | time_format   | str      | Falls abweichend von "%Y-%m-%dT%H:%M:%S" bzw. "%Y-%m-%dT%H:%M:%S.%f"                               |
 | Daten     | Vorbereitung      | preprocessing | str      | Beschreibung, welche Aktionen auf den Daten ausgeführt wurden                                         |
 | Daten     | Rohdaten          | raw_data      | Path/str | Link auf die Originaldaten, sofern diese hier zusammengefasst/bearbeitet sind                         |
 | Technisch | Speicherort       | location      | str      | Bei Level L4 sollte hier ein Hinweis sein, wo die Daten liegen (z.B. Dateipfad / interner Serverlink) |
@@ -78,7 +78,7 @@ Von diesen kann eine beliebige Menge für einzelne Dateien definiert werden.
 | Referenz  | Repository        | repository    | str      | Verweis auf ein Repository, z.B. Git, welches die Daten oder Material dazu enthält                    |
 | Referenz  | Lizenz            | licence       | str      | Lizenz, unter der die Daten genutzt werden können (z.B. GPL, CC-BY-ND 4.0, ...)                       | 
 
-Diese Menge ist sicherlich nicht vollständig. Um einen einheitlichen Standard zu haben, wollen wir diese Liste weiter führen.
+Diese Menge ist sicherlich nicht vollständig. Um einen einheitlichen Standard zu haben, wollen wir diese Liste weiterführen.
 Dazu bitte für zusätzliche Felder bitte einen [Issue hier im Repository](https://github.com/hyBit-project/meta/issues) erstellen.
 
 ### Typen
@@ -123,11 +123,21 @@ und können von den Nutzer:innen einfach eingetragen werden.
 
 Eine aktuelle Instanz ist unter [hybit-meta.ebroda.de](https://hybit-meta.ebroda.de) verfügbar (perspektivisch [meta.hybit.org](https://meta.hybit.org)).
 
-Ein Beispiel für eine hyBit-meta.toml findet sich nachfolgend.
+### Beispiele
+Ein Beispiel für eine README.md.hyBit-meta.toml findet sich nachfolgend.
+
 ```toml
-...
-t.b.a.
+["README.md"]
+owner.name = "Eike Broda"
+owner.email = "mail@example.com"
+owner.company = "BIBA"
+access = "0_public"
+title = "hyBit Dateiberechtigungen"
+description = "Beschreibung der verschiedenen Zugriffslevel"
+cluster = "3"
 ```
+
+Dateinamen zur Kategorisierung sollen nach Möglichkeit nur einmalig definiert werden, um Fehler bei Änderungen zu vermeiden. Die alternative toml-Definition, z.B. ``["README.md".owner]``, ist auch valide, aber nicht empfohlen.
 
 ## Offene Punkte
 Wie mehrere Dateien handlen?
