@@ -126,6 +126,8 @@ YYYY-MM-DD_dateiname.endung.hyBit-meta.toml
 README.md  
 README.md.hyBit-meta.toml
 
+root.hyBit-meta.toml
+
 ## Generierung der hyBit-meta.toml-Dateien
 Die hyBit-meta.toml-Dateien können mittels eines Generators erstellt werden. Hier werden die benötigten und optionalen Attribute abgefragt 
 und können von den Nutzer:innen einfach eingetragen werden.
