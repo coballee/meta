@@ -114,8 +114,17 @@ Ebenso die String-Konstanten, die für die Datenlevel genutzt werden sollen.
 2. Datensätze **ohne** Levelangabe gelten als **L0**.
 
 ## Festlegen der Ordner – und Dateibenennung (bindend!)
-YYYY_MM_DD_dateiname.endung  
-YYYY_MM_DD_dateiname.endung.hyBit-meta.toml
+Die Datei- und Ordnernamen sollen als Präfix das Erstelldatum im Format [ISO 8601](https://xkcd.com/1179/) enthalten. Ausnahmen sind Datei- und Ordnernamen nach Konventionen, wie z.B. ``README.md`` oder Quellcode unter Versionskontrolle.
+
+### Beispiele
+YYYY-MM-DD_dateiname.endung  
+YYYY-MM-DD_dateiname.endung.hyBit-meta.toml
+
+2024-02-29_myPaper.pdf  
+2024-02-29_myPaper.pdf.hyBit-meta.toml
+
+README.md  
+README.md.hyBit-meta.toml
 
 ## Generierung der hyBit-meta.toml-Dateien
 Die hyBit-meta.toml-Dateien können mittels eines Generators erstellt werden. Hier werden die benötigten und optionalen Attribute abgefragt 
