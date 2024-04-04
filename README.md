@@ -1,3 +1,21 @@
+#Einleitung
+Auf diesem Dokument stehen Informationen zu Metadaten und Security Levels in hyBit. Ab jetzt werden alle Projektpartner Zugang zum Server bekommen und es ist wichtig, neue Datensätze direkt mit dem entsprechenden Metadaten und mit dem richtigen Security Level Information hochzuladen.
+Mehr Informationen über den Serven auf dem Dokument "ServerEinrichtung.pdf".
+
+Anmerkung: die Informationen und Beispiele hier sind ausschließlich für NextCloud relevant. Es wird in die Zukunft ein Database geben, wo die Datensätze einfliessen sollten, aber weitere Informationen dazu, wenn es soweit ist. 
+
+Bei den Security Levels gibt es Einiges zu berücksichtigen:
+ - Metadaten müssen immer offen für alle sein, sogar wenn die entsprechende Datensätze vertraulich sind. Projektpartner, die vertrauliche Daten haben oder bekommen, sind dafür verantwortlich, diese Metadaten für all bereitzustellen.
+ - Security Levels sind in NextCloud keine vorliegende Struktur, sondern müssen bei jeder Hochladung berücksichtigen werden. Das heißt: Wenn eine Datei im hyBit Ordner (oder entsprechenden Cluster Ordner) hochgeladen wird, ist sie automatisch für das ganze Konsortium zugänglich. Wenn es nicht der Fall sein sollte, muss die Datei nicht im hyBit Ordner, sondern im persönlichen Ordner hochgeladen werden und extra Zugang zu entsprechenden Partner gegeben werden. Dabei kann man bei NextCloud auswählen, welcher Art von Zugang man geben möchte (lesen, schreiben bzw. aktualisieren, herunterladen, teilen, etc.). Auf dieser Art und Weise können auch Stakeholder, die Projektpartner sind, auch Zugang zum Server bekommen und sie selbst ihre Datensätze hochladen und entsprechende Zugänge definieren und geben.
+ - Wenn es Datensätzen im hyBit Ordner auf dem Server liegen, wo keine Security Level Informationen vorhanden sind, darf man automatisch davon ausgehen, dass sie Level 0 sind, und damit kompett offen.
+ 
+ Bei Fragen zum allgemeinen Server Zugang und Einrichtung, kann man sich bei unserem IT Mitarbeiter Bennet Petznik melden. Bei Fragen zu Metadaten und Security Levels, kann man sich bei den Daten Managers melden, die eine Schulung zum Thema bekommen werden:
+ Bennet Petznik, bpetznik@uni-bremen.de
+ Cluster 1: Olga Masyutina, masyutina@uni-bremen.de
+ Cluster 2: Felix Dittmar, felix.dittmar@ict.fraunhofer.de
+ Cluster 3: Eike Broda, brd@biba.uni-bremen.de
+ Cluster 4: Leander Kimmer, leander.kimmer@ifam.fraunhofer.de
+ Cluster 5: Larissa Doré, larissa.dore@wupperinst.org
 # hyBit Datastructure
 Definition von Datei-Struktur und Berechtigungsebenen für die Datenakquise und -nutzung in hyBit
 
